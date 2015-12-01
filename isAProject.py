@@ -1,3 +1,5 @@
+accumulator = 0
+
 def add(inst):
     print(int(inst[1]) + int(inst[2]))
 
