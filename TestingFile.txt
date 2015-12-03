@@ -1,0 +1,25 @@
+Str var1 = "fallas"
+
+Dec var = 25
+
+ADD 5 2
+
+ADD 56
+
+SUBT 67 12
+
+SUBT 23
+
+SUBT 11
+
+MULT 2
+
+MULT 88 0
+
+OUTPUT var1
+
+OUTPUT var
+
+ADD 4 20
+
+HALT

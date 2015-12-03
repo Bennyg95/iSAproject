@@ -13,8 +13,11 @@ def div(inst):
     print(float(inst[1]) / float(inst[2]))
 
 def main():
+    
+    print "Welcome!"
+    
     instruction = raw_input("Enter instruction: \n")
-
+    
     print(instruction.split())    
 
     inst_list = instruction.split()
@@ -30,6 +33,7 @@ def main():
 
     elif inst_list[0] == "DIV":
 	 div(inst_list)
+	 
 	
 main()
 
