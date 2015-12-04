@@ -2,6 +2,8 @@ Str var1 = "fallas"
 
 Dec var = 25
 
+LOAD var1
+
 ADD 5 2
 
 ADD 56
