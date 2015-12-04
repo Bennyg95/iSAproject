@@ -1,3 +1,4 @@
+register = dict()
 accumulator = 0
 
 def add(inst):
@@ -14,25 +15,33 @@ def div(inst):
 
 def main():
     
+    bencounter = 0 
     print "Welcome!"
     
-    instruction = raw_input("Enter instruction: \n")
+    fin = open("TestingFile.txt", "r")
     
-    print(instruction.split())    
+    for line in fin.readlines():
+        inst_list = line.split()
+        if len(inst_list) == 0:
+            continue
+        if inst_list[0] == "ADD":
+            add(inst_list)
+
+        elif inst_list[0] == "SUBT":
+	        subt(inst_list)
+
+        elif inst_list[0] == "MULT":
+	        mult(inst_list)
+
+        elif inst_list[0] == "DIV":
+	        div(inst_list)
+        
+    '''
 
     inst_list = instruction.split()
 
-    if inst_list[0] == "ADD":
-        add(inst_list)
-
-    elif inst_list[0] == "SUBT":
-	 subt(inst_list)
-
-    elif inst_list[0] == "MULT":
-	 mult(inst_list)
-
-    elif inst_list[0] == "DIV":
-	 div(inst_list)
+    
+	 '''
 	 
 	
 main()
