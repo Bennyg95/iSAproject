@@ -1,7 +1,7 @@
 #Global variable names
 register = dict()
 accumulator = 0
-opcode_list = ["ADD", "SUBT", "MULT", "DIV", "LOAD", "OUTPUT"]
+opcode_list = ["ADD", "SUBT", "MULT", "DIV", "LOAD", "OUTPUT", "INPUT"]
 register = dict()
 
 #def add(inst):
@@ -22,8 +22,15 @@ def loadVar(inst):
     else:
         print "FALLAS Variable " + varKey + " was not declared."
 
+# This function will output a variable 
+# OUTPUT var
 def outputVar(inst):
-    print(inst[1]
+    print(inst[1])
+
+## INPUT funcion
+# # INPUT var
+#def inputVar(inst):
+    # where would we be saving the inputed variable?
 
 def subt(inst):
     print(int(inst[1]) - int(inst[2]))
@@ -44,13 +51,18 @@ def checkInst(inst):
                 loadVar(inst)
             if opcode == "OUTPUT":
                 outputVar(inst)
+           # if opcode == "INPUT":
+                #inputVar(inst)
     
     elif len(inst) == 3:
         if opcode in opcode_list:
             if opcode == "ADD":
                 add(inst)
-                
-    elif len(isnt) == 4:
+           
+    elif len(inst) == 4:
+        pass
+    
+        
         
 
 #Addition function
