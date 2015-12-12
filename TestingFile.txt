@@ -6,15 +6,15 @@ LOAD var1
 
 ADD 5 2
 
-ADD 56
+ADD 56 2
 
 SUBT 67 12
 
-SUBT 23
+SUBT 23 8
 
-SUBT 11
+SUBT 11 2
 
-MULT 2
+MULT 2 3
 
 MULT 88 0
 
@@ -23,5 +23,17 @@ OUTPUT var1
 OUTPUT var
 
 ADD 4 20
+
+DIV 3 0
+
+INPUT var3
+
+LOAD var3
+
+OUTPUT var3
+
+STORE var4
+
+OUTPUT var4
 
 HALT
