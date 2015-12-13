@@ -2,6 +2,33 @@ Str var1 = "fallas"
 
 Dec var = 25
 
+Dec val = 24
+
+Dec num = 56
+
+Dec holder = 0
+
+func do_math :
+    ADD 2 6
+    
+    STORE holder
+    
+    OUTPUT holder
+    
+    MULT val holder
+    
+    STORE holder
+    
+    OUTPUT holder
+    
+    SUBT holder num
+    
+    STORE holder
+    
+    OUTPUT holder
+    
+end
+
 LOAD var1
 
 ADD 5 2

@@ -13,7 +13,7 @@
 Editing text file
     
     The code has to be written in the the program.py file. If you need to reference 
-    a file take a look at TestingFile.txt. In order to fun you're code type in the 
+    a file take a look at TestingFile.txt. In order to run your code type in the 
     following command on a terminal:
         
         python isAProject.py
@@ -34,10 +34,10 @@ Initializing a variable:
         This will input a value into the accumulator.
         
     OUTPUT
-        Will ouput a value 
+        Will ouput a value. 
         
     HALT
-        Stops the program
+        Stops the program.
         
     func functionName :
     
@@ -127,10 +127,3 @@ Initializing a variable:
             ARRAY_NAME.size()
             ARRAY_NAME.replace(place : value)
             ARRAY_NAME.remove(location)
-
-
-        
-
-
-
-    

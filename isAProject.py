@@ -1,26 +1,27 @@
 #Global variable names
-register = dict()
-accumulator = 0
+ram = dict()
+accumulator = 1
+datatype_list = ["Dec", "Str"]
 opcode_list = ["ADD", "SUBT", "MULT", "DIV", "LOAD", "OUTPUT", "INPUT", "STORE"]
-register = dict()
 
 def addToArray():
     pass
     
-def addToRegister(inst):
+def addToRam(inst):
     varName = inst[1]
     varValue = inst[3]
     
     try:
-        register[varName] = int(varValue)
+        ram[varName] = int(varValue)
     except:
-        register[varName] = varValue
+        ram[varName] = varValue
         
 def loadVar(inst):
     varKey = inst[1]
     
-    if varKey in register.keys():
-        accumulator = register[varKey]
+    if varKey in ram.keys():
+        global accumulator
+        accumulator = ram[varKey]
         print "LOAD: ", accumulator
     else:
         print "FALLAS Variable " + varKey + " was not declared."
@@ -28,7 +29,11 @@ def loadVar(inst):
 def storeVal(inst):
     varName = inst[1]
     
-    register[varName] = accumulator
+    print "storeVal:", accumulator
+    ram[varName] = accumulator
+    print ram
+    ram[varName] = 23
+    print ram
 
 # This function will output a variable 
 # OUTPUT var
@@ -36,8 +41,8 @@ def outputVar(inst):
     varName = inst[1]
     varVal = None
     
-    if varName in register.keys():
-        varVal = register[varName]
+    if varName in ram.keys():
+        varVal = ram[varName]
         print "OUTPUT: ", varVal
     else:
         print "FALLAS: Variable " + varName + " was not declared."
@@ -50,42 +55,40 @@ def inputVar(inst):
     varName = inst[1]
     
     try:
-        register[varName] = int(userVal)
+        ram[varName] = int(userVal)
     except:
-        register[varName] = userVal
+        ram[varName] = userVal
     
-
 # Checking the format of the opcodes
 def checkInst(inst):
     opcode = inst[0]
     
-    if len(inst) == 2:
-        if opcode in opcode_list:
-            if opcode == "LOAD":
-                loadVar(inst)
-            elif opcode == "OUTPUT":
-                outputVar(inst)
-            elif opcode == "INPUT":
-                inputVar(inst)
-            elif opcode == "STORE":
-                storeVal(inst)
+    # Checks for instructions of length 2
+    if opcode in opcode_list:
+        if opcode == "LOAD" and len(inst) == 2:
+            loadVar(inst)
+        elif opcode == "OUTPUT" and len(inst) == 2:
+            outputVar(inst)
+        elif opcode == "INPUT" and len(inst) == 2:
+            inputVar(inst)
+        elif opcode == "STORE" and len(inst) == 2:
+            storeVal(inst)
     
-    elif len(inst) == 3:
-        if opcode in opcode_list:
-            if opcode == "ADD":
-                add(inst)
-            elif opcode == "SUBT":
-                subt(inst)
-            elif opcode == "MULT":
-                mult(inst)
-            elif opcode == "DIV":
-                div(inst)
-           
-    elif len(inst) == 4:
-        if (inst[0] == "Str" or inst[0] == "Dec") and inst[2] == "=":
-            addToRegister(inst)
-        else:
-            print "FALLAS: Invalid declaration."
+        # Checks for instruction with length of 3
+        elif opcode == "ADD" and len(inst) == 3:
+            add(inst)
+        elif opcode == "SUBT" and len(inst) == 3:
+            subt(inst)
+        elif opcode == "MULT" and len(inst) == 3:
+            mult(inst)
+        elif opcode == "DIV" and len(inst) == 3:
+            div(inst)
+        
+    elif opcode in datatype_list:
+        # Checks for instructions of length 4
+        if inst[2] == "=" and len(inst) == 4:
+            addToRam(inst)
+        
     
     
 #Addition function
@@ -97,8 +100,8 @@ def add(inst):
     try:
         left_num = int(inst[1])
     except:
-        if inst[1] in register.keys():
-            left_num = register(inst[1])
+        if inst[1] in ram.keys():
+            left_num = ram[inst[1]]
         else:
             var1 = inst[1]
             print "FALLAS: Variable " + var1 + " was not declared."
@@ -106,8 +109,8 @@ def add(inst):
     try:
         right_num = int(inst[2])
     except:
-        if inst[2] in register.keys():
-            right_num = register[inst[2]]
+        if inst[2] in ram.keys():
+            right_num = ram[inst[2]]
         else:
             var2 = inst[2]
             print "FALLAS: Variable " + var2 + " was not declared."
@@ -123,8 +126,8 @@ def subt(inst):
     try:
         left_num = int(inst[1])
     except:
-        if inst[1] in register.keys():
-            left_num = register(inst[1])
+        if inst[1] in ram.keys():
+            left_num = ram[inst[1]]
         else:
             var1 = inst[1]
             print "FALLAS: Variable " + var1 + " was not declared."
@@ -132,8 +135,8 @@ def subt(inst):
     try:
         right_num = int(inst[2])
     except:
-        if inst[2] in register.keys():
-            right_num = register[inst[2]]
+        if inst[2] in ram.keys():
+            right_num = ram[inst[2]]
         else:
             var2 = inst[2]
             print "FALLAS: Variable " + var2 + " was not declared."
@@ -150,8 +153,8 @@ def mult(inst):
     try:
         left_num = int(inst[1])
     except:
-        if inst[1] in register.keys():
-            left_num = register(inst[1])
+        if inst[1] in ram.keys():
+            left_num = ram[inst[1]]
         else:
             var1 = inst[1]
             print "FALLAS: Variable " + var1 + " was not declared."
@@ -159,8 +162,8 @@ def mult(inst):
     try:
         right_num = int(inst[2])
     except:
-        if inst[2] in register.keys():
-            right_num = register(inst[2])
+        if inst[2] in ram.keys():
+            right_num = ram[inst[2]]
         else:
             var2 = inst[2]
             print "FALLAS: Variable " + var2 + " was not declared."
@@ -176,8 +179,8 @@ def div(inst):
     try:
         left_num = int(inst[1])
     except:
-        if inst[1] in register.keys():
-            left_num = register(inst[1])
+        if inst[1] in ram.keys():
+            left_num = ram(inst[1])
         else:
             var1 = inst[1]
             print "FALLAS: Variable " + var1 + "vwas not declared."
@@ -185,8 +188,8 @@ def div(inst):
     try:
         right_num = int(inst[2])
     except:
-        if inst[2] in register.keys():
-            right_num = register[inst[2]]
+        if inst[2] in ram.keys():
+            right_num = ram[inst[2]]
         else:
             var2 = inst[2]
             print "FALLAS: Variable " + var2 + " was not declared."
