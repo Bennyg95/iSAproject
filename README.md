@@ -87,43 +87,23 @@ Initializing a variable:
         
         NOTE: This will replace anything in the accumalator with the loaded value.
         
-    <, > , ==, !=
-        Comparison operators. This will need two values on each side.
+    CLEAR
+        Clears everything in the accumalator by setting accumalator = 0.
+        Will outout a message saying the accumalator is now set to zero.
         
-        <
-            
-            val1 < val2
-            Returns true if val1 is less than val2.
-            Otherwise, it returns false.
-        >
-        
-            val1 > val2
-            Returns true if val2 is greater than val1.
-            Otherwise, it returns false.
-        
-        ==
-        
-            val1 == val2
-            Returns true if val1 is equal to val2.
-            Otherwise, it returns false.
-        
-        !=
-        
-            val1 != val2
-            Returns true if val1 does not equal to val2.
-            
-        
-        
-    STOREI // should we have STOREI?
-    // It hasn't been implemented
-    
-        
-        
-        Loop(start : end)
+            Example:    CLEAR
         
         ARRAY:
-            ARRAY_NAME.add(value)
-            ARRAY_NAME.at(location)
-            ARRAY_NAME.size()
-            ARRAY_NAME.replace(place : value)
-            ARRAY_NAME.remove(location)
+        
+        Initializeing an array:
+            ARR str arr_name
+            
+            ARRAY_NAME.add(value) // add another value at the end of the array
+            ARRAY_NAME.at(location) // insert a value at location
+            ARRAY_NAME.size()   // returns the current size of the array
+            ARRAY_NAME.replace(place : value) // replaces value at the given place
+            ARRAY_NAME.remove(location) // removes the value at given location
+            
+    * NOTE:
+        When there is an error in the code the program will stop 
+        running at the line of the bug.

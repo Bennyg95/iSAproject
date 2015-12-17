@@ -8,6 +8,8 @@ Dec num = 56
 
 Dec holder = 0
 
+Array Str arrName
+
 func do_math :
     ADD 2 6
     
@@ -33,7 +35,15 @@ LOAD var1
 
 ADD 5 2
 
+ARR ADD arrName 2
+
+ARR SHOW
+
+CLEAR
+
 ADD 56 2
+
+CALL do_math
 
 SUBT 67 12
 
@@ -64,3 +74,5 @@ STORE var4
 OUTPUT var4
 
 HALT
+
+CLEAR
