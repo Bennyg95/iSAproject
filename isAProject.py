@@ -4,10 +4,80 @@ import sys
 ram = dict()
 # dictionary that holds user-defined functions
 func_dict = dict()
+loop_dict = dict()
 accumulator = 0
-array_operations = ["ADD", "AT", "SIZE", "REPLACE", "REMOVE"]
 datatype_list = ["Dec", "Str", "Array"]
-opcode_list = ["ADD", "SUBT", "MULT", "DIV", "LOAD", "OUTPUT", "INPUT", "STORE", "CLEAR", "CALL"]
+opcode_list = ["ADD", "SUBT", "MULT", "DIV", "LOAD", "OUTPUT", "INPUT", "STORE", "CLEAR", "CALL", "LOOP", "ARRADD", "ARRAT", "ARRSIZE", "ARRREPLACE", "ARRREMOVE", "ARRFIND"]
+
+def findVal(inst):
+    arrName = inst[1]
+    val = int(inst[2])
+    
+    if arrName + "_d" in ram.keys():
+        arr = ram[arrName+"_d"]
+        for i in range(len(arr)):
+            if arr[i] == val:
+                print "Number was found"
+
+def runLoop(inst):
+    loopName = inst[1]
+    loopCounter = int(raw_input("How many times do you want to loop? "))
+    
+    if loopName in loop_dict.keys():
+        loopInst = loop_dict[loopName]
+        
+        for i in range(loopCounter):
+            for inst in loopInst:
+                checkInst(inst)
+
+def arrayReplace(inst):
+    arrName = inst[1]
+    index = inst[2]
+    replaceVal = inst[3]
+    
+    try:
+        index = int(inst[2])
+        if arrName + "_d" in ram.keys():
+            try:
+                replaceVal = int(inst[3])
+                global ram
+                ram[arrName+"_d"][index] = replaceVal
+            except:
+                print "FALLAS"
+        elif arrName + "_s" in ram.keys():
+            try:
+                global ram
+                ram[arrName+"_d"][index] = replaceVal
+            except:
+                print "FALLAS: ", index, " is not a valid index."
+    except:
+        print "FALLAS: " + index + " is not a valid index."
+    
+    
+
+def loadArrayAt(inst):
+    arrName = inst[1]
+    index = None
+
+    try:
+        index = int(inst[2])
+        if arrName + "_d" in ram.keys():
+            try:
+                global accumulator
+                accumulator = ram[arrName+"_d"][index]
+                print accumulator
+            except:
+                print "FALLAS:", index, "is not a valid index."
+        elif arrName + "_s" in ram.keys():
+            try:
+                global accumulator
+                accumulator = ram[arrName+"_s"][index]
+                print accumulator
+            except:
+                print "FALLAS:", index, "is not a valid index."
+    except:
+        print "FALLAS: " + index + " is not a valid index."
+        sys.exit()
 
 def initArray(inst):
     arrName = inst[2]
@@ -17,8 +87,23 @@ def initArray(inst):
         arrName += "_s"
     elif arrType == "Dec":
         arrName += "_d"
-    
+
+    global ram
     ram[arrName] = list()
+
+def loadArraySize(inst):
+    arrName = inst[1]
+    
+    if arrName + "_d" in ram.keys() or arrName + "_s" in ram.keys():
+        try:
+            global accumulator
+            accumulator = ram[arrName+"_d"]
+            print len(ram[arrName+"_d"])
+        except:
+            global accumulator
+            accumulator = ram[arrName+"_d"]
+            print len(ram[arrName+"_s"])
+        
 
 def clearAcc():
     accumulator = 0
@@ -27,8 +112,20 @@ def clearAcc():
 def haltProgram():
     sys.exit()
 
-def addToArray():
-    pass
+def addToArray(inst):
+    arrName = inst[1]
+    
+    try:
+        arrVal = int(inst[2])
+        if arrName + "_d" in ram.keys():
+            ram[arrName+"_d"].append(arrVal)
+        elif arrName + "_s" in ram.keys():
+            print "FALLAS: cannot add Dec values into string array."
+            sys.exit()
+        else:
+            print "FALLAS: array " + arrName + " has not been initialized."
+    except:
+        pass
     
 def addToRam(inst):
     varName = inst[1]
@@ -53,7 +150,7 @@ def loadVar(inst):
 def storeVal(inst):
     varName = inst[1]
     
-    print "storeVal:", accumulator
+    global ram
     ram[varName] = accumulator
     '''
     print ram
@@ -119,6 +216,9 @@ def checkInst(inst):
         
         elif opcode == "CALL" and len(inst) == 2:
             callFunc(inst)
+            
+        elif opcode == "LOOP" and len(inst) == 2:
+            runLoop(inst)
     
         # Checks for instruction with length of 3
         elif opcode == "ADD" and len(inst) == 3:
@@ -130,8 +230,16 @@ def checkInst(inst):
         elif opcode == "DIV" and len(inst) == 3:
             div(inst)
             
-        elif inst[1] in array_operations and 
-            
+        elif opcode == "ARRSIZE" and len(inst) == 2:
+            loadArraySize(inst)
+        elif opcode == "ARRADD" and len(inst) == 3:
+            addToArray(inst)
+        elif opcode == "ARRAT" and len(inst) == 3:
+            loadArrayAt(inst)
+        elif opcode == "ARRFIND" and len(inst) == 3:
+            findVal(inst)
+        elif opcode == "ARRREPLACE" and len(inst) == 4:
+            arrayReplace(inst)
         
     elif opcode in datatype_list:
         # Checks for instructions of length 4
@@ -176,8 +284,6 @@ def add(inst):
     global accumulator      
     accumulator = left_num + right_num
     
-    print accumulator
-    
 def subt(inst):
     left_num = 0
     right_num = 0
@@ -204,8 +310,6 @@ def subt(inst):
             
     global accumulator
     accumulator = left_num - right_num
-    
-    print accumulator
         
             
 def mult(inst):
@@ -234,8 +338,6 @@ def mult(inst):
             
     global accumulator
     accumulator = left_num * right_num
-    
-    print accumulator
     
 def div(inst):
     left_num = 0;
@@ -270,12 +372,22 @@ def div(inst):
 #Main function of the program
 def main():
     bencounter = 0
-    isFunc = 0
-    funcName = None
-    funcLines = list()
+    
+    
     print "Welcome! to the world's most amazing ISA"
     
-    fin = open("TestingFile.txt", "r")
+    instruction_file = raw_input("Enter the file name: ")
+    
+    isFunc = 0
+    isLoop = 0
+    
+    funcName = None
+    loopName = None
+    
+    funcLines = list()
+    loopLines = list()
+    
+    fin = open(instruction_file, "r")
     
     file = fin.readlines()
 
@@ -292,8 +404,23 @@ def main():
                 # print funcName
                 isFunc = 1
                 continue
+            
+        if "loop" in inst:
+            # print inst
+            if inst[0] == "loop" and inst[2] == ":" and len(inst) == 3:
+                loopName = inst[1]
+                # print funcName
+                isLoop = 1
+                continue
+            
+        if isLoop == 1 and inst[0] == "end":
+            loop_dict[loopName] = loopLines
+            isLoop = 0
+            print loop_dict[loopName]
+            loopLines = list()
+            continue
         
-        if inst[0] == "end":
+        if isFunc == 1 and inst[0] == "end":
             func_dict[funcName] = funcLines
             # print inst[0]
             isFunc = 0
@@ -304,8 +431,9 @@ def main():
         if isFunc == 1:
             # print "inside isFunc: ", inst
             funcLines.append(inst)
+        elif isLoop == 1:
+            loopLines.append(inst)
         else:
             checkInst(inst)
-        
-        
+
 main()

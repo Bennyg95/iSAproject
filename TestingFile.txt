@@ -1,3 +1,27 @@
+
+
+CLEAR
+
+
+
+
+
+
+Array Dec arrName
+
+ARRADD arrName 2
+ARRADD arrName 3
+ARRADD arrName 8
+ARRADD arrName 23
+ARRADD arrName 77
+
+CLEAR
+
+
+
+
+
+
 Str var1 = "fallas"
 
 Dec var = 25
@@ -8,7 +32,12 @@ Dec num = 56
 
 Dec holder = 0
 
-Array Str arrName
+Array Dec arrName
+
+loop add_num :
+    
+
+end
 
 func do_math :
     ADD 2 6
@@ -35,9 +64,25 @@ LOAD var1
 
 ADD 5 2
 
-ARR ADD arrName 2
+LOOP add_num
 
-ARR SHOW
+ARRADD arrName 2
+
+ARRADD arrName 3
+
+ARRSIZE arrName
+
+ARRAT arrName 1
+
+ARRREPLACE arrName 1 10
+
+ARRAT arrName 1
+
+ARRREMOVE arrName 0
+
+ARRAT arrName 0
+
+ARRSIZE arrName
 
 CLEAR
 

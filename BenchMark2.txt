@@ -1,0 +1,11 @@
+Array Dec arrName
+
+ARRADD arrName 2
+ARRADD arrName 3
+ARRADD arrName 8
+ARRADD arrName 23
+ARRADD arrName 77
+
+CLEAR
+
+ARRFIND arrName 23

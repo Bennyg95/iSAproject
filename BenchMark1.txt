@@ -1,0 +1,18 @@
+Dec inp = 0
+
+Dec sum = 0
+
+loop calc_vals :
+    INPUT inp
+    
+    ADD sum inp
+    
+    STORE sum
+    
+end
+
+CLEAR
+
+LOOP calc_vals
+
+OUTPUT sum

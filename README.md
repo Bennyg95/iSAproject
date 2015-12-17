@@ -92,17 +92,21 @@ Initializing a variable:
         Will outout a message saying the accumalator is now set to zero.
         
             Example:    CLEAR
+            
+    LOOP
+        Will loop through the entire block of code with the given value specified
+            LOOP    nameOfLoop  value
         
         ARRAY:
         
         Initializeing an array:
             ARR str arr_name
             
-            ARRAY_NAME.add(value) // add another value at the end of the array
-            ARRAY_NAME.at(location) // insert a value at location
-            ARRAY_NAME.size()   // returns the current size of the array
-            ARRAY_NAME.replace(place : value) // replaces value at the given place
-            ARRAY_NAME.remove(location) // removes the value at given location
+            ARRAY_NAME add(value) // add another value at the end of the array
+            ARRAY_NAME at(location) // insert a value at location
+            ARRAY_NAME size()   // returns the current size of the array
+            ARRAY_NAME replace(place : value) // replaces value at the given place
+            ARRAY_NAME remove(location) // removes the value at given location
             
     * NOTE:
         When there is an error in the code the program will stop 
